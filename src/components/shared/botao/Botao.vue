@@ -1,9 +1,28 @@
 <template>
-	<button class="botao botao-perigo" :tipo="tipo">{{ rotulo }}</button>	
+	<button class="botao" :class="estiloDoBotao" @click="mandarParaOPai()" :tipo="tipo">{{ rotulo }}</button>	
 </template>
 <script>
 export default{
-	props: ['tipo','rotulo'],
+	props: ['tipo','rotulo','confirmacao','estilo'],
+
+	methods:{
+		mandarParaOPai(){
+			if(this.confirmacao){
+				if(confirm('Deseja realmente excluir?')){
+					this.$emit('botaoAtivado');
+				}	
+				return;
+			}
+			this.$emit('botaoAtivado');
+		}
+	},
+
+	computed:{
+		estiloDoBotao(){
+			if(this.estilo === 'padrao' || !this.estilo) return 'botao-padrao';
+			if(this.estilo === 'remover') return 'botao-perigo';
+		}
+	}
 }
 </script>
 <style scoped>
